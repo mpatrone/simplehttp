@@ -1,13 +1,15 @@
 version: 0.2
 env:
   parameter-store:
-    DOCKERHUB_PASS: /dockerhub/username
-    DOCKERHUB_USERNAME: /dockerhub/password
+    DOCKERHUB_PASS_PARAM: /dockerhub/username
+    DOCKERHUB_USERNAME_PARAM: /dockerhub/password
 
 phases:
   pre_build:
     commands:
       - echo Logging in to Docker Hub...
+      - export DOCKERHUB_PASS=$DOCKERHUB_PASS_PARAM
+      - export DOCKERHUB_USERNAME=$DOCKERHUB_USERNAME_PARAM
       - echo "$DOCKERHUB_PASS" | docker login --username $DOCKERHUB_USER --password-stdin
       - echo Logging in to Amazon ECR...
       - aws --version
